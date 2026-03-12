@@ -1,87 +1,108 @@
-# cafee-backend-public
-Cafee.uz: Empowering restaurant owners with an intuitive platform for seamless management. Effortlessly handle orders for delicious dishes and drinks. Customers place orders, prompting your kitchen team to prepare items swiftly. Simplify your restaurant operations effortlessly.
+# 🍽️ Cafe Management API
 
+A robust, real-time backend orchestration engine for modern hospitality operations. Designed to streamline order management, team coordination, and kitchen workflows with enterprise-grade reliability.
 
-# Restaurant Order CRM
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)
+![Pusher](https://img.shields.io/badge/Pusher-251E4E?style=flat&logo=pusher&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-010101?style=flat&logo=socketdotio&logoColor=white)
 
-This repository contains the codebase for a Restaurant Order CRM system. It's designed to assist restaurant owners in managing and organizing orders within their establishment.
+---
 
-## Features
+## 🚀 System Overview
 
-- **Order Management:** Create, update, and delete orders.
-- **Real-time Updates:** Utilizes Pusher for real-time notifications when orders are created or updated.
-- **User Management:** Allows for user account creation and management.
+The **Cafe Management API** serves as the central intelligence for dining establishments. It handles the critical path of an order from creation (waiter app) to preparation (kitchen display) and final delivery. 
 
-## Technologies Used
+### 🌟 Core Capabilities
+- **Real-Time Orchestration**: Instant order synchronization between waitstaff and kitchen via Pusher and WebSockets.
+- **Dynamic CRM**: Specialized management for users, roles (Admin/Waiter/Chef), and customer interactions.
+- **Durable Order Lifecycle**: Robust handling of order states (`pending`, `ready`, `delivered`) backed by MongoDB.
+- **Scalable Architecture**: Event-driven design capable of handling peak restaurant hours with high throughput.
 
-- Node.js: Backend server environment.
-- Express.js: Web framework for routing.
-- MongoDB: Database management system.
-- Mongoose: Object Data Modeling (ODM) for MongoDB.
-- Pusher: Real-time notifications.
+---
 
-## Getting Started
+## 🛠 Tech Stack
 
-To get started with the Restaurant Order CRM, follow these steps:
+- **Runtime**: Node.js
+- **Server Framework**: Express.js
+- **Database**: MongoDB (via Mongoose)
+- **Real-Time Engine**: Pusher Channels & Socket.io for fallback
+- **Tooling**: Dotenv (Config), Nodemon (DX), CORS (Security)
 
-1. Clone this repository.
-2. Install dependencies using `npm install`.
-3. Set up environment variables (MongoDB connection, Pusher keys).
-4. Run the application using `npm start`.
-5. Access the application at `http://localhost:<PORT>`.
+---
 
-## Folder Structure
+## 📂 Architecture
 
-- **models:** Contains Mongoose schemas for User and Order models.
-- **routers:** Express routers for User and Order routes.
-- **Pusher:** Configuration for Pusher real-time notifications.
-- **Other Folders:** Additional application files and configurations.
+```bash
+/
+├── models/         # Data persistence schemas (Mongoose)
+│   ├── OrderModul.js  # Order lifecycle & line-item logic
+│   └── UserModel.js   # Staff & Role definitions
+├── routers/        # API route handlers
+│   ├── OrderRoute.js  # Order processing & real-time triggers
+│   └── UserRouter.js  # Staff management & authentication
+├── Pusher.js       # Real-time event bus configuration
+└── index.js        # Entry point & systems integration
+```
 
-## Usage
+---
 
-Describe how to use the application. Include example API endpoints and their functionalities.
+## 🌐 API Reference
 
-### API Endpoints:
+### Order Management
+| Method | Endpoint | Description | Real-time? |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/order/create` | Submit a new order to the kitchen | ✅ Yes |
+| `PUT` | `/order/made/:id` | Mark an order as prepared/ready | ✅ Yes |
+| `GET` | `/order/get` | Retrieve the active order queue | - |
+| `DELETE` | `/order/delete/:id` | Cancel/Remove an order record | ✅ No |
 
-- `POST /order/create`: Creates a new order.
-  - Request body:
-    ```json
-    {
-      "ordernumber": "12345",
-      "tablenumber": 5,
-      "waitername": "John",
-      "order": "Burger, Fries, Cola"
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "_id": "order_id",
-      "ordernumber": "12345",
-      "tablenumber": 5,
-      "waitername": "John",
-      "order": "Burger, Fries, Cola",
-      "isready": false,
-      "createdAt": "timestamp",
-      "updatedAt": "timestamp"
-    }
-    ```
+### Staff/User Management
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/user/get` | List all registered staff members |
+| `POST` | `/user/create` | Register new staff (Admin/Waiter/Chef) |
+| `PUT` | `/user/update/:id` | Modify staff profiles or permissions |
+| `DELETE` | `/user/delete/:id` | Remove staff access |
 
-Add detailed descriptions of all available endpoints and their functionalities.
+---
 
-## Contributing
+## ⚙️ Setup & Deployment
 
-Contributions to improve this Restaurant Order CRM are welcome! Fork the repository and create a pull request with your changes.
+### Environment Variables
+Create a `.env` file in the root:
+```env
+PORT=5001
+MONGO_URL=your_mongodb_connection_string
+PUSHER_APP_ID=your_id
+PUSHER_KEY=your_key
+PUSHER_SECRET=your_secret
+PUSHER_CLUSTER=your_cluster
+```
 
-## License
+### Installation
+```bash
+npm install
+npm start
+```
 
-This project is licensed under the MIT License.
+---
 
-## Contact
+## 🤝 Contribution
 
-For any inquiries or support, feel free to contact:
+This project is part of a high-performance hospitality suite. Contributions that improve concurrency handling or reporting metrics are particularly welcome.
 
-- **Email:** [kodirov8788@gmail.com](mailto:kodirov8788@gmail.com)
-- **LinkedIn:** [Kodirov Dev](https://www.linkedin.com/in/kodirov-dev/)
-- **Telegram:** [KodirovDev](https://t.me/kodirovdev)
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/Optimization`)
+3. Commit your Changes (`git commit -m 'Add Performance Tuning'`)
+4. Push to the Branch
+5. Open a Pull Request
 
+---
+
+## 📄 License
+
+Distributed under the MIT License.
+
+Developed by [Kodirov Dev](https://github.com/kodirov8788)
